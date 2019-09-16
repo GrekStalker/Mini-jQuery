@@ -12,6 +12,25 @@ const removeItem = function(el) {
   el.parentNode.removeChild(el);
 }
 
+const findElem = function(el, str) {
+  let a = $(str);
+  if (a instanceof NodeList) {
+    for(let i = 0; i < a.length; i++) {
+      let node = a[i];
+      while (node.parentNode) {
+        node = node.parentNode;
+        if (node === el) return a[i]
+      }
+    }
+  } else {
+    let node = a;
+    while (node.parentNode) {
+      node = node.parentNode;
+      if (node === el) return a
+    }
+  }
+}
+
 Node.prototype.on = function(ev, func) {
   addHandler(this, ev, func)
 }
@@ -30,4 +49,8 @@ NodeList.prototype.remove = function() {
   for (let i = 0; i < this.length; i++) {
     removeItem(this[i])
   }
+}
+
+Node.prototype.find = function(str) {
+  return findElem(this, str)
 }
